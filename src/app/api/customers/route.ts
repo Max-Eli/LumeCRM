@@ -106,49 +106,64 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const validatedData = customerCreateSchema.parse(body)
 
-    const customer = await prisma.customer.create({
-      data: {
-        organizationId: session.user.organizationId,
-        firstName: validatedData.firstName,
-        lastName: validatedData.lastName,
-        email: validatedData.email?.toLowerCase(),
-        phone: validatedData.phone,
-        secondaryPhone: validatedData.secondaryPhone,
-        dateOfBirth: validatedData.dateOfBirth ? new Date(validatedData.dateOfBirth) : null,
-        gender: validatedData.gender,
-        address: validatedData.address,
-        city: validatedData.city,
-        state: validatedData.state,
-        zipCode: validatedData.zipCode,
-        country: validatedData.country,
-        notes: validatedData.notes,
-        leadSource: validatedData.leadSource,
-        status: "ACTIVE",
-        referralCode: `REF-${Date.now().toString(36).toUpperCase()}`,
-        ...(validatedData.tags && {
-          tags: {
-            connectOrCreate: validatedData.tags.map((tagName) => ({
-              where: {
-                organizationId_name: {
-                  organizationId: session.user.organizationId,
-                  name: tagName,
-                },
-              },
-              create: {
+    const customer = await prisma.$transaction(async (tx) => {
+      const newCustomer = await tx.customer.create({
+        data: {
+          organizationId: session.user.organizationId,
+          firstName: validatedData.firstName,
+          lastName: validatedData.lastName,
+          email: validatedData.email?.toLowerCase(),
+          phone: validatedData.phone,
+          secondaryPhone: validatedData.secondaryPhone,
+          dateOfBirth: validatedData.dateOfBirth ? new Date(validatedData.dateOfBirth) : null,
+          gender: validatedData.gender,
+          address: validatedData.address,
+          city: validatedData.city,
+          state: validatedData.state,
+          zipCode: validatedData.zipCode,
+          country: validatedData.country,
+          notes: validatedData.notes,
+          leadSource: validatedData.leadSource,
+          status: "ACTIVE",
+          referralCode: `REF-${Date.now().toString(36).toUpperCase()}`,
+        },
+      })
+
+      if (validatedData.tags && validatedData.tags.length > 0) {
+        for (const tagName of validatedData.tags) {
+          const tag = await tx.tag.upsert({
+            where: {
+              organizationId_name: {
                 organizationId: session.user.organizationId,
                 name: tagName,
               },
-            })),
-          },
-        }),
-      },
-      include: {
-        tags: {
-          include: {
-            tag: true,
+            },
+            create: {
+              organizationId: session.user.organizationId,
+              name: tagName,
+            },
+            update: {},
+          })
+
+          await tx.tagAssignment.create({
+            data: {
+              tagId: tag.id,
+              customerId: newCustomer.id,
+            },
+          })
+        }
+      }
+
+      return tx.customer.findUnique({
+        where: { id: newCustomer.id },
+        include: {
+          tags: {
+            include: {
+              tag: true,
+            },
           },
         },
-      },
+      })
     })
 
     await prisma.auditLog.create({
@@ -157,7 +172,7 @@ export async function POST(request: NextRequest) {
         userId: session.user.id,
         action: "CUSTOMER_CREATED",
         entityType: "CUSTOMER",
-        entityId: customer.id,
+        entityId: customer!.id,
         newValue: customer,
       },
     })
