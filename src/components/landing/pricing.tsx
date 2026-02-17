@@ -1,50 +1,44 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, ArrowRight } from "lucide-react"
+import { Check } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui"
-import { Container } from "./container"
-import { GradientText } from "./gradient-text"
 
 const plans = [
   {
     name: "Starter",
-    description: "Perfect for solo practitioners just getting started",
+    description: "For solo practitioners",
     price: 49,
     features: [
       "Up to 100 clients",
       "Unlimited appointments",
       "Basic scheduling",
       "Email reminders",
-      "Standard forms",
-      "Basic reporting",
-      "Email support",
+      "Standard reporting",
     ],
     cta: "Start free trial",
     highlighted: false,
   },
   {
     name: "Professional",
-    description: "Ideal for growing teams with multiple staff",
+    description: "For growing teams",
     price: 149,
     features: [
       "Unlimited clients",
-      "Unlimited appointments",
       "GPS route optimization",
       "SMS & email reminders",
       "Custom forms builder",
       "Advanced analytics",
       "Team management",
       "Priority support",
-      "API access",
     ],
     cta: "Start free trial",
     highlighted: true,
   },
   {
     name: "Enterprise",
-    description: "For large organizations with custom needs",
+    description: "For large organizations",
     price: null,
     features: [
       "Everything in Professional",
@@ -53,8 +47,6 @@ const plans = [
       "Dedicated account manager",
       "24/7 phone support",
       "SLA guarantee",
-      "Custom training",
-      "On-premise deployment",
     ],
     cta: "Contact sales",
     highlighted: false,
@@ -63,110 +55,89 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section className="py-24 bg-slate-50 dark:bg-gray-950 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent" />
-      
-      <Container className="relative">
+    <section id="pricing" className="py-24 bg-white dark:bg-gray-950">
+      <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Simple, <GradientText>transparent pricing</GradientText>
+          <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">
+            Simple, transparent pricing
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400">
-            No hidden fees. No contracts. Cancel anytime. Start with a 14-day free trial on any plan.
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Start with a 14-day free trial. No credit card required.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {plans.map((plan) => (
             <motion.div
               key={plan.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`relative rounded-2xl ${
+              transition={{ duration: 0.5 }}
+              className={`relative rounded-2xl p-8 ${
                 plan.highlighted
-                  ? "border-2 border-violet-500 shadow-xl"
-                  : "border border-gray-200 dark:border-gray-800"
-              } bg-white dark:bg-gray-900 overflow-hidden`}
+                  ? "bg-gray-900 dark:bg-gray-800 text-white ring-2 ring-violet-500"
+                  : "bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800"
+              }`}
             >
               {plan.highlighted && (
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-600 to-indigo-600" />
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-violet-500 text-white text-xs font-medium">
+                  Most Popular
+                </span>
               )}
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                    {plan.name}
-                  </h3>
-                  {plan.highlighted && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300">
-                      Popular
-                    </span>
-                  )}
-                </div>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
+                <p className={`text-sm ${plan.highlighted ? "text-gray-300" : "text-gray-500 dark:text-gray-400"}`}>
                   {plan.description}
                 </p>
-                <div className="mb-6">
-                  {plan.price ? (
-                    <div className="flex items-baseline">
-                      <span className="text-5xl font-bold text-gray-900 dark:text-white">
-                        ${plan.price}
-                      </span>
-                      <span className="text-gray-500 dark:text-gray-400 ml-2">/month</span>
-                    </div>
-                  ) : (
-                    <div className="text-5xl font-bold text-gray-900 dark:text-white">
-                      Custom
-                    </div>
-                  )}
-                </div>
-                <Button
-                  className="w-full"
-                  variant={plan.highlighted ? "default" : "outline"}
-                  size="lg"
-                  asChild
-                >
-                  <Link href="/signup">
-                    {plan.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
               </div>
-              <div className="border-t border-gray-100 dark:border-gray-800 px-8 py-6">
-                <ul className="space-y-3">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-violet-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="mb-6">
+                {plan.price ? (
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-bold">${plan.price}</span>
+                    <span className={`text-sm ${plan.highlighted ? "text-gray-300" : "text-gray-500"}`}>/month</span>
+                  </div>
+                ) : (
+                  <span className="text-4xl font-bold">Custom</span>
+                )}
               </div>
+              <Button
+                className="w-full mb-6"
+                variant={plan.highlighted ? "default" : "outline"}
+                size="lg"
+                asChild
+              >
+                <Link href="/signup">{plan.cta}</Link>
+              </Button>
+              <ul className="space-y-3">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <Check className={`h-5 w-5 flex-shrink-0 ${plan.highlighted ? "text-violet-400" : "text-violet-600"}`} />
+                    <span className={`text-sm ${plan.highlighted ? "text-gray-300" : "text-gray-600 dark:text-gray-400"}`}>
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12"
+          className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8"
         >
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            All plans include HIPAA compliance, SSL encryption, and 99.9% uptime SLA.
-          </p>
-        </motion.div>
-      </Container>
+          All plans include HIPAA compliance and SSL encryption.
+        </motion.p>
+      </div>
     </section>
   )
 }
