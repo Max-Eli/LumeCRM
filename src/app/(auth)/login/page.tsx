@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { signIn } from "next-auth/react"
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Loader2 } from "lucide-react"
 import { Button, Input } from "@/components/ui"
 
@@ -22,23 +23,17 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("/api/auth/callback/credentials", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
       })
 
-      if (response.ok) {
+      if (result?.error) {
+        setError("Invalid email or password")
+      } else {
         router.push("/dashboard")
         router.refresh()
-      } else {
-        const data = await response.json()
-        setError(data.error || "Invalid email or password")
       }
     } catch (err) {
       setError("Something went wrong. Please try again.")
