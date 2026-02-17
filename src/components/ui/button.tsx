@@ -11,21 +11,21 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5 active:translate-y-0",
+          "bg-orange-500 text-white shadow-sm hover:bg-orange-600 active:translate-y-0",
         destructive:
-          "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-500/25 hover:shadow-xl hover:shadow-red-500/40 hover:-translate-y-0.5",
+          "bg-red-500 text-white shadow-sm hover:bg-red-600",
         outline:
-          "border border-gray-200 bg-white text-gray-900 shadow-sm hover:bg-gray-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700",
+          "border border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
         secondary:
-          "bg-gray-100 text-gray-900 shadow-sm hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700",
+          "bg-gray-900 text-white shadow-sm hover:bg-gray-800",
         ghost:
-          "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800",
+          "text-gray-700 hover:bg-gray-100",
         link:
-          "text-violet-600 underline-offset-4 hover:underline dark:text-violet-400",
+          "text-orange-600 underline-offset-4 hover:underline",
         success:
-          "bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/40 hover:-translate-y-0.5",
+          "bg-emerald-500 text-white shadow-sm hover:bg-emerald-600",
         warning:
-          "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/40 hover:-translate-y-0.5",
+          "bg-amber-500 text-white shadow-sm hover:bg-amber-600",
       },
       size: {
         default: "h-11 px-6 py-2",
