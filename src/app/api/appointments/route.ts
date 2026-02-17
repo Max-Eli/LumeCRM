@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
           action: "APPOINTMENT_CREATED",
           entityType: "APPOINTMENT",
           entityId: appointment.id,
-          newValue: appointment,
+          newValue: appointment as any,
         },
       }),
     ])
