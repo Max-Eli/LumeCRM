@@ -18,7 +18,6 @@ const plans = [
       "Standard reporting",
     ],
     cta: "Start free trial",
-    highlighted: false,
   },
   {
     name: "Professional",
@@ -34,7 +33,7 @@ const plans = [
       "Priority support",
     ],
     cta: "Start free trial",
-    highlighted: true,
+    featured: true,
   },
   {
     name: "Enterprise",
@@ -49,13 +48,12 @@ const plans = [
       "SLA guarantee",
     ],
     cta: "Contact sales",
-    highlighted: false,
   },
 ]
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-white dark:bg-gray-950">
+    <section id="pricing" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -64,15 +62,15 @@ export function Pricing() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">
-            Simple, transparent pricing
+          <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">
+            Simple pricing
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-500 max-w-xl mx-auto">
             Start with a 14-day free trial. No credit card required.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
             <motion.div
               key={plan.name}
@@ -81,45 +79,44 @@ export function Pricing() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className={`relative rounded-2xl p-8 ${
-                plan.highlighted
-                  ? "bg-gray-900 dark:bg-gray-800 text-white ring-2 ring-violet-500"
-                  : "bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800"
+                plan.featured
+                  ? "bg-gray-900 text-white"
+                  : "bg-gray-50"
               }`}
             >
-              {plan.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-violet-500 text-white text-xs font-medium">
-                  Most Popular
+              {plan.featured && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-orange-500 text-white text-xs font-medium">
+                  Popular
                 </span>
               )}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
-                <p className={`text-sm ${plan.highlighted ? "text-gray-300" : "text-gray-500 dark:text-gray-400"}`}>
+                <p className={`text-sm ${plan.featured ? "text-gray-300" : "text-gray-500"}`}>
                   {plan.description}
                 </p>
               </div>
               <div className="mb-6">
                 {plan.price ? (
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold">${plan.price}</span>
-                    <span className={`text-sm ${plan.highlighted ? "text-gray-300" : "text-gray-500"}`}>/month</span>
+                    <span className="text-4xl font-semibold">${plan.price}</span>
+                    <span className={`text-sm ${plan.featured ? "text-gray-300" : "text-gray-500"}`}>/month</span>
                   </div>
                 ) : (
-                  <span className="text-4xl font-bold">Custom</span>
+                  <span className="text-4xl font-semibold">Custom</span>
                 )}
               </div>
               <Button
-                className="w-full mb-6"
-                variant={plan.highlighted ? "default" : "outline"}
+                className={`w-full mb-6 rounded-full ${plan.featured ? "bg-white text-gray-900 hover:bg-gray-100" : "bg-gray-900 text-white hover:bg-gray-800"}`}
                 size="lg"
                 asChild
               >
-                <Link href="/signup">{plan.cta}</Link>
+                <Link href={plan.price ? "/signup" : "/contact"}>{plan.cta}</Link>
               </Button>
               <ul className="space-y-3">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check className={`h-5 w-5 flex-shrink-0 ${plan.highlighted ? "text-violet-400" : "text-violet-600"}`} />
-                    <span className={`text-sm ${plan.highlighted ? "text-gray-300" : "text-gray-600 dark:text-gray-400"}`}>
+                    <Check className={`h-5 w-5 flex-shrink-0 ${plan.featured ? "text-orange-400" : "text-orange-600"}`} />
+                    <span className={`text-sm ${plan.featured ? "text-gray-300" : "text-gray-600"}`}>
                       {feature}
                     </span>
                   </li>
@@ -128,15 +125,6 @@ export function Pricing() {
             </motion.div>
           ))}
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center text-sm text-gray-500 dark:text-gray-400 mt-8"
-        >
-          All plans include HIPAA compliance and SSL encryption.
-        </motion.p>
       </div>
     </section>
   )

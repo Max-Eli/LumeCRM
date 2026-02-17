@@ -11,7 +11,7 @@ const stats = [
 
 export function SocialProof() {
   return (
-    <section className="py-16 border-y border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950">
+    <section className="py-16 border-y border-gray-100 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -22,10 +22,10 @@ export function SocialProof() {
         >
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-1">
+              <div className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-1">
                 {stat.value}
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-gray-500">
                 {stat.label}
               </div>
             </div>
