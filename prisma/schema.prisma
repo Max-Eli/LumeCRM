@@ -36,7 +36,7 @@ model Organization {
   branding            Json         @default("{}")
   settings            Json         @default("{}")
   features            Json         @default("{}")
-  notifications       Json         @default("{}")
+  notificationSettings Json        @default("{}")
   
   hipaaCompliant      Boolean      @default(true)
   soc2Compliant       Boolean      @default(true)
@@ -75,6 +75,10 @@ model Organization {
   businessHours       BusinessHour[]
   holidays            Holiday[]
   tags                Tag[]
+  communications      Communication[]
+  routes              Route[]
+  assignedForms       AssignedForm[]
+  formResponses       FormResponse[]
   
   @@index([slug])
   @@index([stripeCustomerId])
@@ -336,7 +340,7 @@ model Customer {
   emailConsent      Boolean       @default(false)
   emailConsentAt    DateTime?
   
-  referralCode      String?       @unique
+  referralCode      String?
   referredBy        String?
   referralCount     Int           @default(0)
   referralCredits   Decimal       @default(0) @db.Decimal(10, 2)
@@ -368,13 +372,12 @@ model Customer {
   
   @@unique([organizationId, externalId])
   @@unique([organizationId, customerNumber])
-  @@unique([referralCode])
+  @@unique([referralCode], map: "customers_referral_code_unique")
   @@index([organizationId])
   @@index([email])
   @@index([phone])
   @@index([status])
   @@index([stripeCustomerId])
-  @@fulltextIndex([firstName, lastName, email])
   @@map("customers")
 }
 
@@ -513,9 +516,9 @@ model HealthProfile {
   allergies             String[]
   currentMedications    String[]
   medicalConditions     String[]
-  pastSurgeries         Json[]    @default("[]")
-  familyHistory         Json[]    @default("[]")
-  immunizations         Json[]    @default("[]")
+  pastSurgeries         Json[]    @default([])
+  familyHistory         Json[]    @default([])
+  immunizations         Json[]    @default([])
   lastPhysicalExam      DateTime?
   lastBloodWork         DateTime?
   additionalNotes       String?
@@ -651,7 +654,7 @@ model ServiceStaff {
   customPrice  Decimal? @db.Decimal(10, 2)
   
   service      Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  staff        Staff    @relation(fields: [serviceId, references: [id], onDelete: Cascade)
+  staff        Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
   
   @@unique([serviceId, staffId])
   @@index([serviceId])
@@ -1050,7 +1053,7 @@ model Treatment {
   beforePhotos      String[]
   afterPhotos       String[]
   
-  productsUsed      Json[]        @default("[]")
+  productsUsed      Json[]        @default([])
   
   followUpAt        DateTime?
   followUpNotes     String?
@@ -1315,6 +1318,7 @@ model FormTemplate {
   
   organization      Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   forms             Form[]
+  assignedForms     AssignedForm[]
   
   @@unique([organizationId, name])
   @@index([organizationId])
