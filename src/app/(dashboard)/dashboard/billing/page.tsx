@@ -22,7 +22,7 @@ import {
   Printer,
   Mail,
 } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Badge, Input } from "@/components/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Badge, Input, Textarea } from "@/components/ui"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui"
 import { cn } from "@/lib/utils"
