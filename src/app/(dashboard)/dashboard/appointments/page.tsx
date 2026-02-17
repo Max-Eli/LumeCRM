@@ -20,11 +20,9 @@ import {
   AlertCircle,
   Car,
 } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Badge, Avatar, AvatarFallback } from "@/components/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Badge, Avatar, AvatarFallback, Input, Textarea } from "@/components/ui"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui"
-import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui"
-import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
 const appointments = [

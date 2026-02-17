@@ -21,10 +21,9 @@ import {
   Shield,
  Award,
 } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Badge, Avatar, AvatarFallback, Input } from "@/components/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Button, Badge, Avatar, AvatarFallback, Input, Textarea } from "@/components/ui"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui"
-import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
 const staff = [
