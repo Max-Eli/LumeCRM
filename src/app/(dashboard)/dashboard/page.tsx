@@ -27,7 +27,7 @@ const stats = [
     change: "+12.5%",
     trend: "up",
     icon: DollarSign,
-    color: "from-emerald-500 to-green-500",
+    color: "bg-emerald-50 text-emerald-600",
   },
   {
     name: "Appointments",
@@ -35,7 +35,7 @@ const stats = [
     change: "+8.2%",
     trend: "up",
     icon: Calendar,
-    color: "from-violet-500 to-purple-500",
+    color: "bg-blue-50 text-blue-600",
   },
   {
     name: "Customers",
@@ -43,7 +43,7 @@ const stats = [
     change: "+15.3%",
     trend: "up",
     icon: Users,
-    color: "from-blue-500 to-cyan-500",
+    color: "bg-purple-50 text-purple-600",
   },
   {
     name: "Avg. Rating",
@@ -51,7 +51,7 @@ const stats = [
     change: "+0.2",
     trend: "up",
     icon: TrendingUp,
-    color: "from-amber-500 to-orange-500",
+    color: "bg-orange-50 text-orange-600",
   },
 ]
 
@@ -185,8 +185,8 @@ export default function DashboardPage() {
             <Card className="relative overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
-                  <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-r ${stat.color}`}>
-                    <stat.icon className="h-6 w-6 text-white" />
+                  <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${stat.color}`}>
+                    <stat.icon className="h-6 w-6" />
                   </div>
                   <div className={`flex items-center gap-1 text-sm font-medium ${
                     stat.trend === "up" ? "text-emerald-600" : "text-red-600"
@@ -229,13 +229,13 @@ export default function DashboardPage() {
                         initial={{ height: 0 }}
                         animate={{ height: `${(data.revenue / 10000) * 100}%` }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="w-full rounded-t-lg bg-gradient-to-t from-violet-600 to-indigo-500"
+                        className="w-full rounded-t-lg bg-orange-500"
                       />
                       <motion.div
                         initial={{ height: 0 }}
                         animate={{ height: `${(data.appointments / 30) * 60}px` }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="w-full rounded-t-lg bg-gradient-to-t from-emerald-400 to-green-300 opacity-60"
+                        className="w-full rounded-t-lg bg-orange-200"
                       />
                     </div>
                     <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
