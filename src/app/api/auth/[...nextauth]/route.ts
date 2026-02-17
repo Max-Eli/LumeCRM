@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials"
 import { prisma } from "@/lib/db"
 import { compare } from "bcryptjs"
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
@@ -80,11 +80,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id
-        token.firstName = user.firstName
-        token.lastName = user.lastName
-        token.role = user.role
-        token.organizationId = user.organizationId
-        token.organization = user.organization
+        token.firstName = (user as any).firstName
+        token.lastName = (user as any).lastName
+        token.role = (user as any).role
+        token.organizationId = (user as any).organizationId
+        token.organization = (user as any).organization
       }
 
       if (trigger === "update" && session) {
@@ -119,3 +119,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 })
+
+export { handlers as GET, handlers as POST }
+export { signIn, signOut, auth }
