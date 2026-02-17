@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { hash } from "bcryptjs"
 import { z } from "zod"
+import type { Prisma as PrismaType } from "@prisma/client"
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     const hashedPassword = await hash(validatedData.password, 12)
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: typeof prisma) => {
       const organization = await tx.organization.create({
         data: {
           name: validatedData.organizationName,
@@ -198,7 +199,7 @@ export async function POST(request: NextRequest) {
     
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Invalid input data", details: error.errors },
+        { error: "Invalid input data", details: error.issues },
         { status: 400 }
       )
     }
