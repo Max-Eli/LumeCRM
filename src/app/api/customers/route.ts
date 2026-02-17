@@ -173,11 +173,11 @@ export async function POST(request: NextRequest) {
         action: "CUSTOMER_CREATED",
         entityType: "CUSTOMER",
         entityId: customer!.id,
-        newValue: customer,
+        newValue: customer as any,
       },
     })
 
-    return NextResponse.json({ data: customer }, { status: 201 })
+    return NextResponse.json({ data: customer })
   } catch (error) {
     console.error("Error creating customer:", error)
     if (error instanceof z.ZodError) {
