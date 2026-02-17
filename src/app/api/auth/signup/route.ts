@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { hash } from "bcryptjs"
 import { z } from "zod"
-import type { Prisma as PrismaType } from "@prisma/client"
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -45,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     const hashedPassword = await hash(validatedData.password, 12)
 
-    const result = await prisma.$transaction(async (tx: typeof prisma) => {
+    const result = await prisma.$transaction(async (tx) => {
       const organization = await tx.organization.create({
         data: {
           name: validatedData.organizationName,
